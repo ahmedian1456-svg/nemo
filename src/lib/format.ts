@@ -6,7 +6,8 @@ import { isKeyishFailure, truncate } from "@/lib/errors";
 /** maskKey = أول 7 أحرف + •••••••• + آخر 4 (للمفاتيح القصيرة: أول 3 + ••••) */
 export function maskKey(key: string): string {
   if (!key) return "";
-  if (key.length <= 7) return key.slice(0, 3) + "••••";
+  // المفاتيح الأقصر من 12 حرفًا لا تكفي لتقنيع 7+4 دون كشف — نستخدم الصيغة القصيرة
+  if (key.length < 12) return key.slice(0, 3) + "••••";
   return key.slice(0, 7) + "••••••••" + key.slice(-4);
 }
 
